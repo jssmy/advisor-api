@@ -26,4 +26,7 @@ Route::group(['prefix'=>'v1'], function() {
         ->middleware('auth:api');
     });
 
+    Route::delete('access/token/{tokenId}',[\App\Http\Controllers\Auth\LogoutController::class, 'logout'])
+    ->middleware('auth:api');
+
 });

@@ -57,6 +57,13 @@ class User extends Authenticatable
         return $this->hasOne(GasolineStation::class, 'id', 'gasoline_station_id');
     }
 
+    /**
+     * Find the user instance for the given username.
+     */
+    public function findForPassport(string $username)
+    {
+        return $this->where('national_id', $username)->first();
+    }
 
 
 }
