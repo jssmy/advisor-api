@@ -11,9 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-            Schema::create('user_grants', function (Blueprint $table) {
+        Schema::create('seller_services_contracts', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->decimal('price');
+            $table->integer('period_time');
+            $table->enum('in_time', ['days', 'months','years']);
+            $table->timestamps();
         });
     }
 
@@ -22,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_grants');
+        Schema::dropIfExists('seller_services_contracts');
     }
 };

@@ -11,6 +11,10 @@ class GasolineStation extends Model
 
     protected $casts = [
         'images' => 'array',
-        'location' => 'object'
+        'location' => 'array'
     ];
+
+    public function subscriptions() {
+        return $this->hasMany(SellerServicesContract::class, 'id', 'gasoline_station_id');
+    }
 }

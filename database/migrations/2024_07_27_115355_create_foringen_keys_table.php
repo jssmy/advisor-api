@@ -19,10 +19,6 @@ return new class extends Migration
                 ->references('id')
                 ->on('users');
 
-            $table->foreignId('grant_id')
-                ->references('id')
-                ->on('user_grants');
-
             $table->foreignId('gasoline_station_id')
                 ->nullable()
                 ->references('id')
@@ -39,6 +35,18 @@ return new class extends Migration
                 ->on('gasoline_stations');
         });
 
+        // contracted seller services
+        Schema::table('seller_services_contracts', function (Blueprint $table) {
+
+            $table->foreignId('seller_service_id')
+            ->references('id')
+            ->on('seller_services');
+
+            $table->foreignId('gasoline_station_id')
+                ->references('id')
+                ->on('gasoline_stations');
+
+        });
 
 
     }
@@ -49,8 +57,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropForeign('users_grant_id_foreign');
-            $table->dropColumn('grant_id');
 
             $table->dropForeign('users_gasoline_station_id_foreign');
             $table->dropColumn('gasoline_station_id');
@@ -63,6 +69,17 @@ return new class extends Migration
         Schema::table('gasoline_stations', function (Blueprint $table) {
             $table->dropForeign('gasoline_stations_station_has_gasoline_station_id_foreign');
             $table->dropColumn('station_has_gasoline_station_id');
+        });
+
+        // contracted seller services
+        Schema::table('seller_services_contracts', function (Blueprint $table) {
+
+            $table->dropForeign('seller_services_contracts_seller_service_id_foreign');
+            $table->dropColumn('seller_service_id');
+
+            $table->dropForeign('seller_services_contracts_gasoline_station_id_foreign');
+            $table->dropColumn('gasoline_station_id');
+
         });
     }
 };

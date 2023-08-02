@@ -22,11 +22,22 @@ Route::group(['prefix'=>'v1'], function() {
 
     Route::group(['prefix' =>'user'], function () {
         Route::post('create', [\App\Http\Controllers\Auth\RegisterController::class, 'register']);
-        Route::get('config',[\App\Http\Controllers\UserConfigController::class, 'getUserConfigDefault'])
-        ->middleware('auth:api');
+
+        Route::group(['middleware' => 'auth:api'], function () {
+
+            Route::get('config',[\App\Http\Controllers\UserConfigController::class, 'getUserConfigDefault']);
+
+        });
+
     });
 
     Route::delete('access/token/{tokenId}',[\App\Http\Controllers\Auth\LogoutController::class, 'logout'])
     ->middleware('auth:api');
+
+    Route::group(['prefix' => 'seller-services', 'middleware' => 'auth:api'], function () {
+        Route::get('/', [\App\Http\Controllers\SellerServiceController::class, 'getServices']);
+    });
+
+
 
 });

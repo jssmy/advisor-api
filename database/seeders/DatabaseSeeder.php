@@ -23,16 +23,31 @@ class DatabaseSeeder extends Seeder
 
         $this->call(
             [
-                UserGrantSeeder::class,
                 UserSeeder::class,
                 GasolineStationSeeder::class,
+                SellerServicesSeeder::class
             ]
         );
 
         /***actyualizando ***/
-        $user = User::find(2);
+        $user1 = User::find(1);
 
-        $user->gasoline_station_id = 1;
-        $user->save();
+        $user1->gasoline_station_id = 1;
+        $user1->save();
+
+        $user2 = User::find(2);
+
+        $user2->gasoline_station_id = 1;
+        $user2->save();
+
+        $user3 = User::find(3);
+
+        $user3->gasoline_station_id = 2;
+        $user3->save();
+
+        $user3 = User::find(4);
+
+        $user3->gasoline_station_id = 2;
+        $user3->save();
     }
 }

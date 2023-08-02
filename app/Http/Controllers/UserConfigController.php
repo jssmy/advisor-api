@@ -8,18 +8,32 @@ class UserConfigController extends Controller
 {
     public function getUserConfigDefault() {
         $user = auth()->user();
-        $user->load('grant','company');
+        $user->load('company','roles');
+        $role = collect($user->roles)->first();
+
+        $permissions = $user->getAllPermissions()->map(function ($permision) {
+            return [
+                'id' => $permision->id,
+                'name' => $permision->name,
+                'type' => $permision->type,
+                'route' => $permision->route
+            ];
+        });
         $userConfig = [
             'user' => [
                 'name' => $user->name,
-                'email'=> $user->email,
-                'grant' => $user->grant
+                'email'=> $user->email
             ],
-            'subscriptions' => [],
-            'permissions' => []
+            'grant' => [
+                'id' => $role->id,
+                'name' => $role->name
+            ],
+            'permissions' => $permissions,
+            'subscriptions' => []
         ];
 
         if($user->company) {
+            $user->company->load('subscriptions');
             $userConfig['company'] = [
                 'ruc' => $user->company->ruc,
                 'company_name' => $user->company->company_name,

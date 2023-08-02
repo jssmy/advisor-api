@@ -36,7 +36,7 @@ class GasolineStationSeeder extends Seeder
                 ],
                 [
                     'ruc'=>'10233652662',
-                    'company_type'=>'retailer',
+                    'company_type'=>'wholesaler',
                     'company_name'=>'Petro Bolivia',
                     'images'=> json_encode(
                         [
