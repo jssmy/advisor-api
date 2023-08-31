@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\GasolineStationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -36,6 +37,12 @@ Route::group(['prefix'=>'v1'], function() {
 
     Route::group(['prefix' => 'seller-services', 'middleware' => 'auth:api'], function () {
         Route::get('/', [\App\Http\Controllers\SellerServiceController::class, 'getServices']);
+    });
+
+    Route::group(['prefix'=> 'station', 'middleware' => 'auth:api'], function() {
+        Route::get('recovery-batch/{ruc}', [GasolineStationController::class, 'getStationsRecovery']);
+        Route::post('afiliar/{stationId}', [GasolineStationController::class, 'afiliarStation']);
+        Route::get('afiliados/{stationId}', [GasolineStationController::class, 'getStationsAfiliados']);
     });
 
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class UserConfigController extends Controller
@@ -35,6 +36,7 @@ class UserConfigController extends Controller
         if($user->company) {
             $user->company->load('subscriptions');
             $userConfig['company'] = [
+                'id'=> $user->company->id,
                 'ruc' => $user->company->ruc,
                 'company_name' => $user->company->company_name,
                 'company_type' => $user->company->company_type,
