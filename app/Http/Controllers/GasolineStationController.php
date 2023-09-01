@@ -25,17 +25,16 @@ class GasolineStationController extends Controller
 
 
     public function afiliarStation(int $stationId, Request $request) {
-        
+
         $station = GasolineStation::updateOrCreate(
             [
                 'ruc' => $request->ruc
             ],
             [
                 'company_name' => $request->company_name,
-                'images' => json_encode($request->images),
+                'images' => $request->images,
                 'company_type' => 'retailer',
-                'company_name' => $request->company_name,
-                'images' => json_encode($request->images),
+                'company_name' => $request->company_name,   
                 'station_has_gasoline_station_id' => $stationId
             ]
         );
@@ -48,9 +47,13 @@ class GasolineStationController extends Controller
         
     }
 
-    public function getStationsAfiliados(int $stationId) {
+    public function getStationsAfiliados() {
+        $user =  auth()->user();
+        $user->load('company');
+        $stations = GasolineStation::fromStation($user->company->id)->get();
+
         return response()->json(
-            GasolineStation::fromStation($stationId)->get()
+            $stations
         );
     }
 }

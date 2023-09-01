@@ -42,7 +42,7 @@ Route::group(['prefix'=>'v1'], function() {
     Route::group(['prefix'=> 'station', 'middleware' => 'auth:api'], function() {
         Route::get('recovery-batch/{ruc}', [GasolineStationController::class, 'getStationsRecovery']);
         Route::post('afiliar/{stationId}', [GasolineStationController::class, 'afiliarStation']);
-        Route::get('afiliados/{stationId}', [GasolineStationController::class, 'getStationsAfiliados']);
+        Route::get('afiliados', [GasolineStationController::class, 'getStationsAfiliados']);
     });
 
 
