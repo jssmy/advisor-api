@@ -18,6 +18,7 @@ return new class extends Migration
                 ->default('retailer');
             $table->string('company_name');
             $table->json('images');
+            $table->json('ubigeo');
             $table->json('location')->nullable();
             $table->boolean('state')->default(true);
             $table->timestamps();

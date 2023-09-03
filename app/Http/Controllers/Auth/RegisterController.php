@@ -12,7 +12,14 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Symfony\Component\HttpFoundation\Response;
+use App\Enums\NationalTypeEnum;
 
+   /**
+    * @OA\Info(title="API ADVISOR", version="1.0")
+    *
+    * @OA\Server(url="http://127.0.0.1:8000")
+    * @OA\Server(url="https://advisor-api.barbacode.com")
+    */
 class RegisterController extends Controller
 {
     /*
@@ -44,7 +51,36 @@ class RegisterController extends Controller
     {
         $this->middleware('guest');
     }
-
+    
+    /**
+     * @OA\Post(
+     *          path="/api/v1/user/register",
+     *          summary="API to register users",
+     *          description="Send request to create users for login application",
+     *          tags={"register user"},
+     *          @OA\RequestBody(
+     *              required=true,
+     *              description="User object fields",
+     *              @OA\JsonContent(
+     *                  @OA\Property(property="national_id", type="string", maxLength=8, minLength=8),
+     *                  @OA\Property(property="national_type", type="string", enum={"dni","pasaporte"}),
+     *                  @OA\Property(property="grant_id", type="integer"),
+     *                  @OA\Property(property="name", type="string", maxLength=255),
+     *                  @OA\Property(property="email", type="string", maxLength=255),
+     *                  @OA\Property(property="password", type="string", minLength=8),
+     *                  @OA\Property(property="password_confirmation", type="string", minLength=8)
+     *              )
+     *          ),
+     *          @OA\Response(
+     *              response=201,
+     *              description="User has been created"
+     *          ),
+     *          @OA\Response(
+     *              response=400,
+     *              description="Bad request, please check request body"
+     *          )
+     * )
+     */
     public function register(Request $request)
     {
         $this->validator($request->all())->validate();
@@ -69,7 +105,7 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'national_id' => ['required', 'string', 'max:8','unique:users'],
+            'national_id' => ['required', 'string', 'size:8','unique:users'],
             'national_type' => ['required',Rule::in(['dni','pasaporte'])],
             'grant_id' => ['required',' numeric'],
             'name' => ['required', 'string', 'max:255'],

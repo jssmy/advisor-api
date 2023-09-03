@@ -13,13 +13,15 @@ class GasolineStation extends Model
         'company_type',
         'company_name',
         'images',
+        'ubigeo',
         'location',
         'station_has_gasoline_station_id'
     ];
 
     protected $casts = [
         'images' => 'array',
-        'location' => 'array'
+        'location' => 'array',
+        'ubigeo' => 'array'
     ];
 
     public function subscriptions()
@@ -36,6 +38,10 @@ class GasolineStation extends Model
     public function scopeFromStation($query, $stationId)
     {
         return $query->where('station_has_gasoline_station_id', $stationId);
+    }
+
+    public function unsetAfiliation() {
+        $this->station_has_gasoline_station_id = null;
     }
 
 }

@@ -20,9 +20,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::group(['prefix'=>'v1'], function() {
-
+ 
     Route::group(['prefix' =>'user'], function () {
-        Route::post('create', [\App\Http\Controllers\Auth\RegisterController::class, 'register']);
+        Route::post('register', [\App\Http\Controllers\Auth\RegisterController::class, 'register']);
 
         Route::group(['middleware' => 'auth:api'], function () {
 
@@ -41,8 +41,9 @@ Route::group(['prefix'=>'v1'], function() {
 
     Route::group(['prefix'=> 'station', 'middleware' => 'auth:api'], function() {
         Route::get('recovery-batch/{ruc}', [GasolineStationController::class, 'getStationsRecovery']);
-        Route::post('afiliar/{stationId}', [GasolineStationController::class, 'afiliarStation']);
+        Route::post('afiliar', [GasolineStationController::class, 'afiliarStation']);
         Route::get('afiliados', [GasolineStationController::class, 'getStationsAfiliados']);
+        Route::delete('unset/{stationId}', [GasolineStationController::class, 'unsetAfiliation']);
     });
 
 
