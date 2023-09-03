@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 
 class GasolineStation extends Model
 {
@@ -42,6 +43,26 @@ class GasolineStation extends Model
 
     public function unsetAfiliation() {
         $this->station_has_gasoline_station_id = null;
+    }
+
+    public function scopeFilter($query, Request $request) {
+        if(!!$request->ruc) {
+            $query->where('ruc', 'like', "$request->ruc%");
+        }
+
+        if(!!$request->department) {
+            $query->whereRaw("json_extract(ubigeo, '$.department.id')='$request->deparment'");
+        }
+
+        if(!!$request->province) {
+            $query->whereRaw("json_extract(ubigeo, '$.province.id')='$request->province'");
+        }
+        
+
+        if(!!$request->district) {
+            $query->whereRaw("json_extract(ubigeo, '$.district.id')='$request->province'");
+        }
+        return $query;
     }
 
 }

@@ -149,6 +149,12 @@ class GasolineStationController extends Controller
      *      tags={"Get station afiliates"},
      *      description="Get afiliate stations from whosaler station",
      *      @OA\Parameter(
+     *          name="page",
+     *          in="query",
+     *          required=false,
+     *          @OA\Schema(type="int")
+     *      ),
+     *      @OA\Parameter(
      *          name="Authorization",
      *          in="header",
      *          required=true,
@@ -165,11 +171,13 @@ class GasolineStationController extends Controller
      * )
      * 
      */
-    public function getStationsAfiliados()
+    public function getStationsAfiliados(Request $request)
     {
         $user =  auth()->user();
         $user->load('company');
-        $stations = GasolineStation::fromStation($user->company->id)->paginate(10);
+        $stations = GasolineStation::fromStation($user->company->id)
+        ->filter($request)
+        ->paginate(10);
 
         return response()->json(
             $stations

@@ -230,6 +230,14 @@
                 "operationId": "b3b6486d251298a6083b0984f48fcaf0",
                 "parameters": [
                     {
+                        "name": "page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "int"
+                        }
+                    },
+                    {
                         "name": "Authorization",
                         "in": "header",
                         "required": true,
